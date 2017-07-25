@@ -20,6 +20,7 @@ public class GameController : MonoBehaviour
 	public float spawnWait;
 	public float startWait;
 	public float waveWait;
+	public float delayTime;
 
 	public Camera cam;
 
@@ -29,10 +30,23 @@ public class GameController : MonoBehaviour
 		StartCoroutine (SpawnWaves ());
 		Instantiate (p1, new Vector3 (-4, 0, 0), Quaternion.identity);
 		Instantiate(p2, new Vector3 (4, 0, 0), Quaternion.identity);
+		delayTime = 0;
 
 	}
 
 	void Update() {
+
+		delayTime += Time.deltaTime;
+
+
+		if (delayTime >= 30) {
+			delayTime = 0;
+			SceneManager.LoadScene ("title");
+		}
+
+		if (Input.anyKey) {
+			delayTime = 0;
+		}
 
 		if (Input.GetKey (b1)) {
 			Camera.main.GetComponent<UnityStandardAssets.ImageEffects.MotionBlur>().blurAmount = 1;
