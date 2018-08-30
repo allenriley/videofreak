@@ -58,6 +58,34 @@ namespace UnityStandardAssets.ImageEffects
 
         void Awake () {	}
 
+		//andy edit
+		void Update(){
+			if (Input.GetKey (KeyCode.Alpha3)) {
+				for (float i = 0.0f; i <= 1.0f; i += 1.0f / 255.0f) {
+					float rCh = 1.0f - i;
+					float gCh = 1.0f - i;
+					float bCh = 1.0f - i;
+
+					rgbChannelTex.SetPixel ((int)Mathf.Floor (i * 255.0f), 0, new Color (rCh, rCh, rCh));
+					rgbChannelTex.SetPixel ((int)Mathf.Floor (i * 255.0f), 1, new Color (gCh, gCh, gCh));
+					rgbChannelTex.SetPixel ((int)Mathf.Floor (i * 255.0f), 2, new Color (bCh, bCh, bCh));
+				}
+				rgbChannelTex.Apply ();
+			} else {
+				for (float i = 0.0f; i <= 1.0f; i += 1.0f / 255.0f) {
+					float rCh = i;
+					float gCh = i;
+					float bCh = i;
+
+					rgbChannelTex.SetPixel ((int)Mathf.Floor (i * 255.0f), 0, new Color (rCh, rCh, rCh));
+					rgbChannelTex.SetPixel ((int)Mathf.Floor (i * 255.0f), 1, new Color (gCh, gCh, gCh));
+					rgbChannelTex.SetPixel ((int)Mathf.Floor (i * 255.0f), 2, new Color (bCh, bCh, bCh));
+				}
+				rgbChannelTex.Apply ();
+
+			}
+		}
+
 
         public override bool CheckResources ()
 		{

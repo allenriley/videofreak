@@ -103,6 +103,7 @@ public class PlayerController : MonoBehaviour
 		gameObject.GetComponent<MeshRenderer> ().enabled = false;
 		gameObject.GetComponent<Rigidbody> ().velocity = new Vector3(0, 0, 0);
 		deathTime = Time.time;
+		GameController.instance.AddDeaths (1);
 	}
 
 }

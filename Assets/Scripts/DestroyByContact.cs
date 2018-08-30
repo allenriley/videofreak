@@ -22,9 +22,14 @@ public class DestroyByContact : MonoBehaviour
 			other.gameObject.GetComponent<PlayerController> ().kill ();
 		}
 
-		//GC = GameObject.Find (GameController);
-		//GC.PlayerDeath();
+
+		if (other.tag == "Bolt") {
+			GameController.instance.AddPoints (1);
+		}
+
 		Destroy(gameObject);
+
+
 
 	}
 }		

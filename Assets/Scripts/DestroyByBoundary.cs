@@ -14,6 +14,7 @@ public class DestroyByBoundary : MonoBehaviour
 		if (other.tag == "Bolt") {
 			//Debug.Log ("hello");
 			Destroy (other.gameObject);
+	
 		}
 	}
 }
