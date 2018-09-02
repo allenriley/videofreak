@@ -7,7 +7,19 @@ namespace UnityStandardAssets.ImageEffects
     [AddComponentMenu ("Image Effects/Color Adjustments/Color Correction (Curves, Saturation)")]
     public class ColorCorrectionCurves : PostEffectsBase
 	{
-        public enum ColorCorrectionMode
+        
+
+		//ANDY EDIT
+		private float transition_speed = 0.05f;	//this must be a number between 0 and 1.
+
+		//don't fuck with these. These are just starting values
+		private float target_prc = 1;
+		private float cur_prc = 1;
+
+
+
+
+		public enum ColorCorrectionMode
 		{
             Simple = 0,
             Advanced = 1
@@ -50,6 +62,9 @@ namespace UnityStandardAssets.ImageEffects
         private bool  updateTexturesOnStartup = true;
 
 
+
+			
+
         new void Start ()
 		{
             base.Start ();
@@ -58,32 +73,26 @@ namespace UnityStandardAssets.ImageEffects
 
         void Awake () {	}
 
-		//andy edit
+		//ANDY EDIT
 		void Update(){
 			if (Input.GetKey (KeyCode.Alpha3)) {
-				for (float i = 0.0f; i <= 1.0f; i += 1.0f / 255.0f) {
-					float rCh = 1.0f - i;
-					float gCh = 1.0f - i;
-					float bCh = 1.0f - i;
-
-					rgbChannelTex.SetPixel ((int)Mathf.Floor (i * 255.0f), 0, new Color (rCh, rCh, rCh));
-					rgbChannelTex.SetPixel ((int)Mathf.Floor (i * 255.0f), 1, new Color (gCh, gCh, gCh));
-					rgbChannelTex.SetPixel ((int)Mathf.Floor (i * 255.0f), 2, new Color (bCh, bCh, bCh));
-				}
-				rgbChannelTex.Apply ();
+				target_prc = 0;
 			} else {
-				for (float i = 0.0f; i <= 1.0f; i += 1.0f / 255.0f) {
-					float rCh = i;
-					float gCh = i;
-					float bCh = i;
-
-					rgbChannelTex.SetPixel ((int)Mathf.Floor (i * 255.0f), 0, new Color (rCh, rCh, rCh));
-					rgbChannelTex.SetPixel ((int)Mathf.Floor (i * 255.0f), 1, new Color (gCh, gCh, gCh));
-					rgbChannelTex.SetPixel ((int)Mathf.Floor (i * 255.0f), 2, new Color (bCh, bCh, bCh));
-				}
-				rgbChannelTex.Apply ();
-
+				target_prc = 1;
 			}
+
+			cur_prc = Mathf.Lerp(cur_prc, target_prc, transition_speed);
+
+			for (float i = 0.0f; i <= 1.0f; i += 1.0f / 255.0f) {
+				float rCh = Mathf.Lerp( 1.0f - i, i, cur_prc);
+				float gCh = Mathf.Lerp( 1.0f - i, i, cur_prc);
+				float bCh = Mathf.Lerp( 1.0f - i, i, cur_prc);
+
+				rgbChannelTex.SetPixel ((int)Mathf.Floor (i * 255.0f), 0, new Color (rCh, rCh, rCh));
+				rgbChannelTex.SetPixel ((int)Mathf.Floor (i * 255.0f), 1, new Color (gCh, gCh, gCh));
+				rgbChannelTex.SetPixel ((int)Mathf.Floor (i * 255.0f), 2, new Color (bCh, bCh, bCh));
+			}
+			rgbChannelTex.Apply ();
 		}
 
 
